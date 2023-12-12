@@ -177,7 +177,8 @@ task BenchmarkFilter {
         cpu: 1
         preemptible: 1
         max_retries: 1
-        memory: mem_gb + " GiB"
+        memory: mem_gb + " GiB" 
+        hpcMemory: mem_gb
         disks: "local-disk " + disk_gb + " HDD"
     }
 
@@ -239,7 +240,8 @@ task ConcatBenchmarkPdfs {
         cpu: 1
         preemptible: 1
         max_retries: 1
-        memory: mem_gb + " GiB"
+        memory: mem_gb + " GiB" 
+        hpcMemory: mem_gb
         disks: "local-disk " + disk_gb + " HDD"
     }
 

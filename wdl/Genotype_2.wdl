@@ -118,7 +118,7 @@ task SplitBeds {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1,
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -139,6 +139,7 @@ task SplitBeds {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -174,7 +175,7 @@ task RdTestGenotypeRegeno {
 
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -217,6 +218,7 @@ task RdTestGenotypeRegeno {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_rdtest_docker
@@ -236,7 +238,7 @@ task GetRegenotype{
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -257,6 +259,7 @@ task GetRegenotype{
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -276,7 +279,7 @@ task ConcatReGenotypedVcfs {
 
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -305,6 +308,7 @@ task ConcatReGenotypedVcfs {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker

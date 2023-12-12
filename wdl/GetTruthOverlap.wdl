@@ -111,7 +111,8 @@ task GetTruthOverlapTask {
         cpu: 12
         preemptible: 3
         max_retries: 1
-        memory: mem_gb + " GiB"
+        memory: mem_gb + " GiB" 
+        hpcMemory: mem_gb
         disks: "local-disk " + disk_gb + " HDD"
     }
 

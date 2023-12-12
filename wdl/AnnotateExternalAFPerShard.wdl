@@ -167,7 +167,8 @@ task SplitRefBed {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -217,7 +218,8 @@ task SplitQueryVcf {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -273,7 +275,8 @@ task BedtoolsClosest {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -315,7 +318,8 @@ task SelectMatchedSVs {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -361,7 +365,8 @@ task SelectMatchedINSs {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -411,7 +416,8 @@ task ModifyVcf {
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
     
     runtime {
-        memory: "~{select_first([runtime_attr.mem_gb, runtime_default.mem_gb])} GiB"
+        memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_attr.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])

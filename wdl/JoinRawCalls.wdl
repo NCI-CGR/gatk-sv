@@ -88,7 +88,7 @@ workflow JoinRawCalls {
   scatter (contig in read_lines(contig_list)) {
     call tasks_cluster.SVCluster {
       input:
-        vcfs=FormatVcfForGatk.gatk_formatted_vcf,
+        vcfs=flatten([FormatVcfForGatk.gatk_formatted_vcf, FormatVcfForGatk.gatk_formatted_vcf_index]),
         ploidy_table=CreatePloidyTableFromPed.out,
         output_prefix="~{prefix}.join_raw_calls.~{contig}",
         contig=contig,

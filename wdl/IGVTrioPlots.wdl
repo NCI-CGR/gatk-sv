@@ -72,7 +72,8 @@ task runIGV_whole_genome{
     runtime {
         docker: igv_docker
         preemptible: 1
-        memory: "15 GB"
+        memory: "15 GB" 
+        hpcMemory: 15
         disks: "local-disk 100 HDD"
         }
     output{

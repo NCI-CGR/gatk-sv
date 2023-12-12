@@ -86,6 +86,7 @@ task generate_per_sample_bed{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -125,6 +126,7 @@ task tar_gz_output_folder{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -148,7 +150,8 @@ task bgzip_igv_folder{
     runtime{
         docker: "talkowski/igv_gatk:latest"
         preemptible: 3
-        memory: "10 GB"
+        memory: "10 GB" 
+        hpcMemory: 10
         disks: "local-disk 50 HDD"    
     }
     output{
@@ -175,7 +178,8 @@ task integrate_figure{
     runtime{
         docker: sv_base_mini_docker
         preemptible: 3
-        memory: "10 GB"
+        memory: "10 GB" 
+        hpcMemory: 10
         disks: "local-disk 50 HDD"    
     }
     output{

@@ -87,6 +87,8 @@ task SVConcordanceTask {
                                max_retries: 1
                              }
   RuntimeAttr runtime_attr = select_first([runtime_attr_override, default_attr])
+  Float mem_gb = select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+  Int java_mem_mb = ceil(mem_gb * 1000 * 0.6)
 
   output {
     File out = "~{output_prefix}.vcf.gz"
@@ -95,20 +97,7 @@ task SVConcordanceTask {
   command <<<
     set -euo pipefail
 
-    function getJavaMem() {
-    # get JVM memory in MiB by getting total memory from /proc/meminfo
-    # and multiplying by java_mem_fraction
-      cat /proc/meminfo \
-        | awk -v MEM_FIELD="$1" '{
-          f[substr($1, 1, length($1)-1)] = $2
-        } END {
-          printf "%dM", f[MEM_FIELD] * ~{default="0.85" java_mem_fraction} / 1024
-        }'
-    }
-    JVM_MAX_MEM=$(getJavaMem MemTotal)
-    echo "JVM memory: $JVM_MAX_MEM"
-
-    gatk --java-options "-Xmx${JVM_MAX_MEM}" SVConcordance \
+    gatk --java-options "-Xmx~{java_mem_mb}m" SVConcordance \
       ~{"-L " + contig} \
       --sequence-dictionary ~{reference_dict} \
       --eval ~{eval_vcf} \
@@ -119,6 +108,7 @@ task SVConcordanceTask {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: gatk_docker

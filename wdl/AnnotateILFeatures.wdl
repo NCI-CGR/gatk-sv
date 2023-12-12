@@ -283,7 +283,7 @@ task RunDupholdPerContig{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -324,6 +324,7 @@ task RunDupholdPerContig{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -343,7 +344,7 @@ task vcf2bed{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 2,
         preemptible_tries: 1,
@@ -369,6 +370,7 @@ task vcf2bed{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -416,6 +418,7 @@ task Bed2QueryAndRef{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -435,7 +438,7 @@ task BedComparison{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -456,6 +459,7 @@ task BedComparison{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -475,7 +479,7 @@ task Bcf2Vcf{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -496,6 +500,7 @@ task Bcf2Vcf{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -546,6 +551,7 @@ task ShiftVcfForDuphold{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -569,7 +575,7 @@ task RunDuphold{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 2,
         preemptible_tries: 1,
@@ -596,6 +602,7 @@ task RunDuphold{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -620,7 +627,7 @@ task RunVaPoR{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -651,6 +658,7 @@ task RunVaPoR{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -726,6 +734,7 @@ task RunRdPeSrAnnotation{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -785,6 +794,7 @@ task RunGenomicContextAnnotation{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: rdpesr_benchmark_docker
@@ -803,7 +813,7 @@ task ExtracGTGQ{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -847,6 +857,7 @@ task ExtracGTGQ{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -865,7 +876,7 @@ task ExtracAlgorithmEvidenceFilter{
 
     RuntimeAttr default_attr = object {
         cpu_cores: 1, 
-        mem_gb: 3.75, 
+        mem_gb: 10, 
         disk_gb: 10,
         boot_disk_gb: 10,
         preemptible_tries: 1,
@@ -889,6 +900,7 @@ task ExtracAlgorithmEvidenceFilter{
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker

@@ -333,7 +333,7 @@ task CleanVcf1a {
 
   Float input_size = size([vcf, background_fail_list, bothsides_pass_list], "GB")
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(10.0 + input_size * 2),
                                   cpu_cores: 1,
                                   preemptible_tries: 3,
@@ -342,7 +342,8 @@ task CleanVcf1a {
                                 }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -408,7 +409,8 @@ task CleanVcf2 {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -446,7 +448,7 @@ task CleanVcf3 {
   # generally assume working memory is ~3 * inputs
   Float input_size = size(rd_cn_revise, "GB")
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: ceil(10.0 + input_size * 2.0),
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -455,7 +457,8 @@ task CleanVcf3 {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -497,7 +500,8 @@ task CleanVcf4 {
                                 }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -617,7 +621,7 @@ task DropRedundantCnvs {
   # the biggest disk usage is at the end of the task, with input + output VCF on disk
   Int cpu_cores = 2 # speed up compression / decompression of VCFs
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75 + input_size * 1.5,
+    mem_gb: 10 + input_size * 1.5,
     disk_gb: ceil(100.0 + input_size * 2.0),
     cpu_cores: cpu_cores,
     preemptible_tries: 3,
@@ -626,7 +630,8 @@ task DropRedundantCnvs {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -671,6 +676,7 @@ task StitchFragmentedCnvs {
 
   runtime {
     memory: "~{mem_gb} GB"
+    hpcMemory: mem_gb
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -725,7 +731,8 @@ task FinalCleanup {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

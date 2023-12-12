@@ -65,6 +65,7 @@ task CollectCounts {
   runtime {
     docker: gatk_docker
     memory: machine_mem_gb + " GiB"
+    hpcMemory: machine_mem_gb
     disks: "local-disk " + select_first([disk_space_gb, 10]) + if use_ssd then " SSD" else " HDD"
     cpu: select_first([cpu, 1])
     preemptible: select_first([preemptible_attempts, 3])
@@ -117,6 +118,7 @@ task CondenseReadCounts {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: condense_counts_docker
@@ -158,6 +160,7 @@ task CountsToIntervals {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: linux_docker

@@ -195,6 +195,7 @@ task ComputeSTRProfile {
     docker: ehdn_docker
     cpu: runtime_attr.cpu_cores
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: runtime_attr.boot_disk_gb
     preemptible: runtime_attr.preemptible_tries
@@ -333,6 +334,7 @@ task STRAnalyze {
     docker: ehdn_docker
     cpu: runtime_attr.cpu_cores
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: runtime_attr.boot_disk_gb
     preemptible: runtime_attr.preemptible_tries

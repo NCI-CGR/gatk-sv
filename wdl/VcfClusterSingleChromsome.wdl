@@ -195,7 +195,7 @@ task LocalizeContigVcfs {
   }
 
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(10 + size(vcf, "GiB") * 1.5),
                                   cpu_cores: 1,
                                   preemptible_tries: 1,
@@ -206,6 +206,7 @@ task LocalizeContigVcfs {
 
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -281,6 +282,7 @@ task JoinVcfs {
 
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -337,7 +339,7 @@ task FixMultiallelicRecords {
   Float input_size_fraction = 2.0
   Float base_disk_gb = 10.0
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(base_disk_gb + input_size * input_size_fraction),
                                   cpu_cores: 1,
                                   preemptible_tries: 1,
@@ -348,6 +350,7 @@ task FixMultiallelicRecords {
 
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -385,7 +388,7 @@ task FixEvidenceTags {
   Float input_size_ratio = 2.0
   Float base_disk_gb = 10.0
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(base_disk_gb + input_size * input_size_ratio),
                                   cpu_cores: 1,
                                   preemptible_tries: 1,
@@ -396,6 +399,7 @@ task FixEvidenceTags {
 
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -438,7 +442,7 @@ task SubsetVariantList {
   # when filtering/sorting/etc, memory usage will likely go up (much of the data will have to
   # be held in memory or disk while working, potentially in a form that takes up more space)
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(10.0 + size(vid_list, "GB") * 2.0 + size(vcf, "GB")),
                                   cpu_cores: 1,
                                   preemptible_tries: 3,
@@ -448,6 +452,7 @@ task SubsetVariantList {
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

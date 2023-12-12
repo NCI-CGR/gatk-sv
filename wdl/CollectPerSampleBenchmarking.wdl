@@ -149,6 +149,7 @@ task RenameBenchmarkTarfileSamples {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -177,7 +178,7 @@ task BenchmarkSamples {
   # Scale disk dynamically w/r/t input size
   Float input_size = size([vcf_stats, samples_list, per_sample_tarball, comparison_tarball], "GiB")
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: ceil(10.0 + input_size * 15),
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -186,7 +187,8 @@ task BenchmarkSamples {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GiB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -244,7 +246,8 @@ task MergeTarballs {
   }
   RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
   runtime {
-    memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+    memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

@@ -35,6 +35,7 @@ task CatMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -75,6 +76,7 @@ task StandardizeVCF {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -99,7 +101,7 @@ task VCFMetrics {
   File samples_list = write_lines(samples)
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -125,6 +127,7 @@ task VCFMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -146,7 +149,7 @@ task BAFMetrics {
   File samples_list = write_lines(samples)
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -165,6 +168,7 @@ task BAFMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -186,7 +190,7 @@ task SRMetrics {
   File samples_list = write_lines(samples)
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 25,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -205,6 +209,7 @@ task SRMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -226,7 +231,7 @@ task PEMetrics {
   File samples_list = write_lines(samples)
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -245,6 +250,7 @@ task PEMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -263,7 +269,7 @@ task CountsMetrics {
   }
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -282,6 +288,7 @@ task CountsMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -322,6 +329,7 @@ task BincovMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -366,6 +374,7 @@ task MedcovMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -386,7 +395,7 @@ task MergedDepthMetricsWithBaseline {
   }
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -415,6 +424,7 @@ task MergedDepthMetricsWithBaseline {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -434,7 +444,7 @@ task MergedDepthMetricsWithoutBaseline {
   }
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -453,6 +463,7 @@ task MergedDepthMetricsWithoutBaseline {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -475,7 +486,7 @@ task MetricsFileMetrics {
   String common_arg = if common then "--common" else ""
 
   RuntimeAttr runtime_default = object {
-    mem_gb: 3.75,
+    mem_gb: 10,
     disk_gb: 10,
     cpu_cores: 1,
     preemptible_tries: 3,
@@ -494,6 +505,7 @@ task MetricsFileMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -538,6 +550,7 @@ task CutoffAndOutlierMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -573,6 +586,7 @@ task GenotypingCutoffMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -610,6 +624,7 @@ task IdListMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -652,6 +667,7 @@ task PlotMetrics {
   >>>
   runtime {
     memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_override.disk_gb, runtime_default.disk_gb]) + " HDD"
     cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

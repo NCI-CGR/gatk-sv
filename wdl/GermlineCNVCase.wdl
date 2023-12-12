@@ -241,12 +241,18 @@ task DetermineGermlineContigPloidyCaseMode {
         export OMP_NUM_THREADS=~{cpu}
 
         mkdir input-contig-ploidy-model
-        tar xzf ~{contig_ploidy_model_tar} -C input-contig-ploidy-model
+        
+        mkdir read_count_files_dir
+        cp ~{sep = " " read_count_files} ./read_count_files_dir
+        ls ./read_count_files_dir/* > read_count_files_list.txt
+        
+        read_count_files_list="read_count_files_list.txt"
+        grep gz$ "$read_count_files_list" | xargs -l1 -P0 gunzip
+        sed 's/\.gz$//' "$read_count_files_list" \
+            | awk '{print "--input "$0}' \
+            > read_count_files.args
 
-        read_count_files_list=~{write_lines(read_count_files)}
-        grep gz$ $read_count_files_list | xargs -l1 -P0 gunzip
-        sed 's/\.gz$//' $read_count_files_list | \
-            awk '{print "--input "$0}' > read_count_files.args
+        tar xzf ~{contig_ploidy_model_tar} -C input-contig-ploidy-model
 
         gatk --java-options "-Xmx~{command_mem_mb}m" DetermineGermlineContigPloidy \
             --arguments_file read_count_files.args \
@@ -261,7 +267,8 @@ task DetermineGermlineContigPloidyCaseMode {
     >>>
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
-      memory: mem_gb + " GiB"
+      memory: mem_gb + " GiB" 
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -360,7 +367,11 @@ task GermlineCNVCallerCaseMode {
         mkdir gcnv-model
         tar xzf ~{gcnv_model_tar} -C gcnv-model
 
-        read_count_files_list=~{write_lines(read_count_files)}
+        mkdir read_count_files_dir
+        cp ~{sep = " " read_count_files} ./read_count_files_dir
+        ls ./read_count_files_dir/* > read_count_files_list.txt
+        
+        read_count_files_list="read_count_files_list.txt"
         grep gz$ "$read_count_files_list" | xargs -l1 -P0 gunzip
         sed 's/\.gz$//' "$read_count_files_list" \
             | awk '{print "--input "$0}' \
@@ -438,7 +449,8 @@ task GermlineCNVCallerCaseMode {
     >>>
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
-      memory: mem_gb + " GiB"
+      memory: mem_gb + " GiB" 
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker

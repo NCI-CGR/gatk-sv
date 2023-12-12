@@ -58,14 +58,17 @@ task SVCluster {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: ceil(10 + size(vcfs, "GB") * 3 + size(reference_fasta, "GB")),
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
                                    max_retries: 1
                                }
     RuntimeAttr runtime_attr = select_first([runtime_attr_override, default_attr])
-
+    
+    Float mem_gb = select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+    Int java_mem_mb = ceil(mem_gb * 1000 * 0.6)
+    
     output {
         File out = "~{output_prefix}.vcf.gz"
         File out_index = "~{output_prefix}.vcf.gz.tbi"
@@ -73,21 +76,9 @@ task SVCluster {
     command <<<
         set -euo pipefail
 
-        function getJavaMem() {
-            # get JVM memory in MiB by getting total memory from /proc/meminfo
-            # and multiplying by java_mem_fraction
-            cat /proc/meminfo \
-                | awk -v MEM_FIELD="$1" '{
-                    f[substr($1, 1, length($1)-1)] = $2
-                } END {
-                    printf "%dM", f[MEM_FIELD] * ~{default="0.85" java_mem_fraction} / 1024
-                }'
-        }
-        JVM_MAX_MEM=$(getJavaMem MemTotal)
-        echo "JVM memory: $JVM_MAX_MEM"
-
         if ~{length(vcfs) > 0}; then
-            awk '{print "-V "$0}' ~{write_lines(vcfs)} > arguments.txt
+            # command adjusted to include only .gz files. Array will contain index files too.
+            awk '{print "-V "$0}' ~{write_lines(vcfs)} | awk '/.gz$/' > arguments.txt
         elif ~{defined(vcfs_tar)}; then
             mkdir vcfs
             tar xzf ~{vcfs_tar} -C vcfs/
@@ -97,7 +88,8 @@ task SVCluster {
             exit 1
         fi
 
-        gatk --java-options "-Xmx${JVM_MAX_MEM}" SVCluster \
+
+        gatk --java-options "-Xmx~{java_mem_mb}m" SVCluster \
             --arguments_file arguments.txt \
             --output ~{output_prefix}.vcf.gz \
             --ploidy-table ~{ploidy_table} \
@@ -130,6 +122,7 @@ task SVCluster {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: gatk_docker
@@ -151,7 +144,7 @@ task ExcludeIntervalsByEndpoints {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: ceil(10 + size(vcf, "GB") * 2),
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
@@ -178,6 +171,7 @@ task ExcludeIntervalsByEndpoints {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -200,7 +194,7 @@ task ExcludeIntervalsByIntervalOverlap {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: ceil(10 + size(vcf, "GB") * 2),
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
@@ -226,6 +220,7 @@ task ExcludeIntervalsByIntervalOverlap {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_base_mini_docker
@@ -249,7 +244,7 @@ task GatkToSvtkVcf {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: ceil(10 + size(vcf, "GB") * 2),
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
@@ -275,6 +270,7 @@ task GatkToSvtkVcf {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -299,7 +295,7 @@ task CNVBedToGatkVcf {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: ceil(10 + size(bed, "GB") * 2),
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
@@ -326,6 +322,7 @@ task CNVBedToGatkVcf {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -349,7 +346,7 @@ task CreatePloidyTableFromPed {
 
     RuntimeAttr default_attr = object {
                                    cpu_cores: 1,
-                                   mem_gb: 3.75,
+                                   mem_gb: 10,
                                    disk_gb: 10,
                                    boot_disk_gb: 10,
                                    preemptible_tries: 3,
@@ -381,6 +378,7 @@ task CreatePloidyTableFromPed {
     runtime {
         cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
         memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+        hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
         disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
         bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
         docker: sv_pipeline_docker
@@ -403,7 +401,7 @@ task ScatterCompressedBedOmitHeaders {
     Float base_disk_gb = 10.0
 
     RuntimeAttr runtime_default = object {
-                                      mem_gb: 3.75,
+                                      mem_gb: 10,
                                       disk_gb: ceil(base_disk_gb + input_size * 10.0),
                                       cpu_cores: 1,
                                       preemptible_tries: 3,
@@ -412,7 +410,8 @@ task ScatterCompressedBedOmitHeaders {
                                   }
     RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
     runtime {
-        memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+        memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+        hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -449,7 +448,7 @@ task TarFiles {
     Float base_disk_gb = 10.0
 
     RuntimeAttr runtime_default = object {
-                                      mem_gb: 3.75,
+                                      mem_gb: 10,
                                       disk_gb: ceil(base_disk_gb + input_size * 3.0),
                                       cpu_cores: 1,
                                       preemptible_tries: 3,
@@ -458,7 +457,8 @@ task TarFiles {
                                   }
     RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
     runtime {
-        memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+        memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+        hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -491,7 +491,7 @@ task TarFilesFromList {
     }
 
     RuntimeAttr runtime_default = object {
-                                      mem_gb: 3.75,
+                                      mem_gb: 10,
                                       disk_gb: 100,
                                       cpu_cores: 1,
                                       preemptible_tries: 3,
@@ -500,7 +500,8 @@ task TarFilesFromList {
                                   }
     RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
     runtime {
-        memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+        memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+        hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

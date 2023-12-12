@@ -84,6 +84,7 @@ task HailMergeTask {
   RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
   runtime {
     memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, runtime_default.disk_gb]) + " SSD"
     cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])
@@ -148,7 +149,7 @@ task FixHeader {
   }
 
   RuntimeAttr runtime_default = object {
-                                  mem_gb: 3.75,
+                                  mem_gb: 10,
                                   disk_gb: ceil(10 + size(merged_vcf, "GB") * 2 + size(example_vcf, "GB")),
                                   cpu_cores: 1,
                                   preemptible_tries: 3,
@@ -158,6 +159,7 @@ task FixHeader {
   RuntimeAttr runtime_attr = select_first([runtime_attr_override, runtime_default])
   runtime {
     memory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb]) + " GB"
+    hpcMemory: select_first([runtime_attr.mem_gb, runtime_default.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, runtime_default.disk_gb]) + " SSD"
     cpu: select_first([runtime_attr.cpu_cores, runtime_default.cpu_cores])
     preemptible: select_first([runtime_attr.preemptible_tries, runtime_default.preemptible_tries])

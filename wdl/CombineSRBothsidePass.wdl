@@ -49,7 +49,7 @@ task GetNonRefVariantLists {
 
     Float input_size = size(vcf, "GB")
     RuntimeAttr runtime_default = object {
-                                      mem_gb: 3.75,
+                                      mem_gb: 10,
                                       disk_gb: ceil(10.0 + input_size * 2.0),
                                       cpu_cores: 1,
                                       preemptible_tries: 3,
@@ -58,7 +58,8 @@ task GetNonRefVariantLists {
                                   }
     RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
     runtime {
-        memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+        memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+        hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])
@@ -89,7 +90,7 @@ task CalculateBothsideSupportFraction {
 
     Float input_size = size(non_ref_vid_lists, "GB") + size(raw_sr_bothside_pass_files, "GB")
     RuntimeAttr runtime_default = object {
-                                      mem_gb: 3.75,
+                                      mem_gb: 10,
                                       disk_gb: ceil(10.0 + input_size * 2.0),
                                       cpu_cores: 1,
                                       preemptible_tries: 3,
@@ -98,7 +99,8 @@ task CalculateBothsideSupportFraction {
                                   }
     RuntimeAttr runtime_override = select_first([runtime_attr_override, runtime_default])
     runtime {
-        memory: "~{select_first([runtime_override.mem_gb, runtime_default.mem_gb])} GB"
+        memory: select_first([runtime_override.mem_gb, runtime_default.mem_gb]) + " GB"
+        hpcMemory: select_first([runtime_override.mem_gb, runtime_default.mem_gb])
         disks: "local-disk ~{select_first([runtime_override.disk_gb, runtime_default.disk_gb])} HDD"
         cpu: select_first([runtime_override.cpu_cores, runtime_default.cpu_cores])
         preemptible: select_first([runtime_override.preemptible_tries, runtime_default.preemptible_tries])

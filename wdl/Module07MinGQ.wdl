@@ -288,7 +288,7 @@ task GetSampleLists {
 
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: ceil(10 + size(vcf, "GB")),
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -314,6 +314,7 @@ task GetSampleLists {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -334,7 +335,7 @@ task SplitPcrVcf {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: ceil(10 + size(vcf, "GB") * 2),
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -358,6 +359,7 @@ task SplitPcrVcf {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -379,7 +381,7 @@ task GetAfTables {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: ceil(10 + size(vcf, "GB") * 3),
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -435,6 +437,7 @@ task GetAfTables {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -456,7 +459,7 @@ task SplitFamfile {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: 30,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -491,6 +494,7 @@ task SplitFamfile {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -509,7 +513,7 @@ task CollectTrioSVdat {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: 50,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -582,6 +586,7 @@ task CollectTrioSVdat {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -601,7 +606,7 @@ task GatherTrioData {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -620,6 +625,7 @@ task GatherTrioData {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -648,7 +654,7 @@ task EnumerateConditions {
   }
   RuntimeAttr default_attr = object {
     cpu_cores: 1, 
-    mem_gb: 3.75, 
+    mem_gb: 10, 
     disk_gb: 10,
     boot_disk_gb: 10,
     preemptible_tries: 3,
@@ -686,6 +692,7 @@ task EnumerateConditions {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -724,6 +731,7 @@ task CombineRocOptResults {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_base_mini_docker
@@ -772,6 +780,7 @@ task BuildFilterTree {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -840,6 +849,7 @@ task ApplyMinGQFilter {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
@@ -918,6 +928,7 @@ task MergePcrVCFs {
   runtime {
     cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
     memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
     disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
     bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
     docker: sv_pipeline_docker
