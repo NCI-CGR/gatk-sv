@@ -36,7 +36,7 @@ task AnnotateIntervals {
 
     command <<<
         set -euo pipefail
-        export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
+        #export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
 
         gatk --java-options "-Xmx~{command_mem_mb}m" AnnotateIntervals \
             -L ~{intervals} \
@@ -50,7 +50,7 @@ task AnnotateIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-      hpcMemory: mem_gb
+    hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -103,7 +103,7 @@ task FilterIntervals {
 
     command <<<
         set -euo pipefail
-        export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
+        #export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
 
         read_count_files_list=~{write_lines(read_count_files)}
         grep gz$ $read_count_files_list | xargs -l1 -P0 gunzip
@@ -132,7 +132,7 @@ task FilterIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-      hpcMemory: mem_gb
+    hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -176,7 +176,7 @@ task ScatterIntervals {
     command <<<
         set -euo pipefail
         mkdir ~{output_dir_}
-        export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
+        #export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
 
         {
             >&2 echo "Attempting to run IntervalListTools..."
@@ -199,7 +199,7 @@ task ScatterIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-      hpcMemory: mem_gb
+    hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -252,7 +252,7 @@ task ExplodePloidyCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
-      hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: linux_docker
@@ -324,7 +324,7 @@ task BundlePostprocessingInvariants {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
-      hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: sv_base_mini_docker
@@ -374,7 +374,7 @@ task BundledPostprocessGermlineCNVCalls {
     command <<<
         set -euo pipefail
         
-        export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
+        #export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
 
         # untar calls to CALLS_0, CALLS_1, etc directories and build the command line
         # also copy over shard config and interval files
@@ -408,7 +408,7 @@ task BundledPostprocessGermlineCNVCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-      hpcMemory: mem_gb
+    hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -470,7 +470,7 @@ task PostprocessGermlineCNVCalls {
     command <<<
         set -euo pipefail
 
-        export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
+        #export GATK_LOCAL_JAR=~{default="/root/gatk.jar" gatk4_jar_override}
 
         # untar calls to CALLS_0, CALLS_1, etc directories and build the command line
         # also copy over shard config and interval files
@@ -515,7 +515,7 @@ task PostprocessGermlineCNVCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-      hpcMemory: mem_gb
+    hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
