@@ -50,7 +50,7 @@ task AnnotateIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -132,7 +132,7 @@ task FilterIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -199,7 +199,7 @@ task ScatterIntervals {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -252,7 +252,7 @@ task ExplodePloidyCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
-    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+      hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: linux_docker
@@ -324,7 +324,7 @@ task BundlePostprocessingInvariants {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: select_first([runtime_attr.mem_gb, default_attr.mem_gb]) + " GiB"
-    hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
+      hpcMemory: select_first([runtime_attr.mem_gb, default_attr.mem_gb])
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: sv_base_mini_docker
@@ -408,7 +408,7 @@ task BundledPostprocessGermlineCNVCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -515,7 +515,7 @@ task PostprocessGermlineCNVCalls {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker

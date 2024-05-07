@@ -386,7 +386,7 @@ task DetermineGermlineContigPloidyCohortMode {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
@@ -564,7 +564,7 @@ task GermlineCNVCallerCohortMode {
     runtime {
       cpu: select_first([runtime_attr.cpu_cores, default_attr.cpu_cores])
       memory: mem_gb + " GiB" 
-    hpcMemory: mem_gb
+      hpcMemory: mem_gb
       disks: "local-disk " + select_first([runtime_attr.disk_gb, default_attr.disk_gb]) + " HDD"
       bootDiskSizeGb: select_first([runtime_attr.boot_disk_gb, default_attr.boot_disk_gb])
       docker: gatk_docker
