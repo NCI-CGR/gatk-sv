@@ -1,0 +1,7 @@
+{
+  "name" : "CCSS_1000278_A_test",
+
+  "bam_or_cram_file" : "/data/DCEG_Pediatric_Sarcomas/GenCompass/pediatric_sarcoma_analysis_id/workflow_results/fq2bam/CCSS_1000278_A/CCSS_1000278_A.bam",
+  "bam_or_cram_index" : "/data/DCEG_Pediatric_Sarcomas/GenCompass/pediatric_sarcoma_analysis_id/workflow_results/fq2bam/CCSS_1000278_A/CCSS_1000278_A.bam.bai",
+  "sample_id" : "CCSS_1000278_A"
+}

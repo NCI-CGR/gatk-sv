@@ -1,0 +1,7 @@
+{
+    "delete_intermediate_output_files": true,
+    "final_call_logs_dir": "gatk-sv-logs",
+    "final_workflow_log_dir": "gatk-sv-logs",
+    "final_workflow_outputs_dir": "gatks-sv-results",
+    "use_relative_output_paths": true
+}
